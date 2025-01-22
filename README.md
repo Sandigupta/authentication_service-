@@ -125,6 +125,23 @@ Setup the config.json file
 npx sequelize db:create
 
 ```
+#
+---
+
+---
+## Creating User model and migration file.
+
+```
+npx sequelize model: generate --name User --attributes email:string,password:string
+    
+```
+# afetr creating the user model and migration file 
+
+```
+npm sequelize db:migrate
+
+```
+# we map the model file with the migration that define the schema whrere mmodel help use to connect with other directory like repository.
 ---
 
 ---
