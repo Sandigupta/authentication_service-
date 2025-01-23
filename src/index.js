@@ -9,6 +9,8 @@ const apiRouter = require('./routes/index');
 const ServiceRepository = require("./services/user-service");
 const serviceRepository = new ServiceRepository();
 
+
+
 const prepareAndStartServer = () => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended:true}))
