@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const { PORT } = require("./config/configService");
-const bodyParser = require("body-parser");
+const { PORT } = require('./config/configService');
+const bodyParser = require('body-parser');
 const apiRouter = require('./routes/index');
 
 // const UserRepository = require('./repository/user-repository');

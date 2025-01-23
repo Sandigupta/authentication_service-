@@ -16,7 +16,7 @@ const create = async (req, res) => {
         })
     } catch (error) {
         console.log(error);
-        res.status(500).json({
+        return res.status(500).json({
             message: `Something went wrong`,
             data: {},
             success: false,
@@ -26,9 +26,29 @@ const create = async (req, res) => {
    
 }
 
+const signIn = async (req, res) => {
+    try {
+        const responce = await userService.signIn(req.body.password, req.body.email);
+        return res.status(200).json({
+            data: responce,
+            message: "Succesfully signIn in",
+            success: true,
+            err:{}
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Something went wrong ",
+            data: {},
+            success: false,
+            err: error
+        });
+    }
+}
+
 const des=async (req, res) => {
     try {
-        const responce = userService.destroy(req.params);
+        const responce =await userService.destroy(req.params);
         return res.status(201).json({
             data: responce,
             message: "Succefully deleted the user",
@@ -43,5 +63,6 @@ const des=async (req, res) => {
 
 module.exports = {
     create,
-    des
+    des,
+    signIn
 }
