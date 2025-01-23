@@ -31,6 +31,7 @@ const prepareAndStartServer = () => {
         // const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbmRlZXBAMTIzZ21haWwuY29tIiwiaWQiOjEsImlhdCI6MTczNzU4MjQzNiwiZXhwIjoxNzM3NTg2MDM2fQ.Xfm4zzjEmLWpVcXhGSjBrYg1THeGlsX_2L6O2lx2Woo"
         // const data = serviceRepository.verifyToken(token);
         // console.log(data);
+        
     })
 }
 
