@@ -1,7 +1,12 @@
 const bcrypt = require("bcrypt");
 const saltRound = 10;
 
+function getSalt() {
+    return bcrypt.genSaltSync(saltRound);
+}
+
 module.exports = {
     PORT: process.env.PORT || 3001,
-    SALT: bcrypt.genSaltSync(saltRound)
+    SALT: getSalt(),
+    JWT_SECRET: process.env.JWT_SECRET || 'YourNewSecretValue' 
 }

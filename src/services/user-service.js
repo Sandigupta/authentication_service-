@@ -1,5 +1,7 @@
 const { destroy } = require("../controllers/user-controller");
 const UserRepository  = require("../repository/user-repository");
+const JWT = require('jsonwebtoken');
+const {JWT_SECRET}= require("../config/configService");
 
 class UserService{
     constructor() {
@@ -25,6 +27,27 @@ class UserService{
               throw error;
           }
     }
+
+    async createToken(user) {
+        try {
+            const token = JWT.sign(
+                user, JWT_SECRET, { expiresIn: '1h' });
+            return token;
+        } catch (error) {
+            console.log("Something went worng at the service level in token cretetion ", error);
+            throw error;
+        }
+    }
+
+    async verifyToken(token) {
+          try {
+              const decode = JWT.verify(token, JWT_SECRET);
+              return decode;
+          } catch (error) {
+            
+          }
+    }
+
 }
 
 module.exports = UserService
