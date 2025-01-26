@@ -50,6 +50,24 @@ class UserService{
          }
     } 
 
+    async authanticate(token) {
+        // try {the userId is object contain details about the user mail and it id from db.
+        try{
+            const userId = this.verifyToken(token);
+            if (!userId) {
+                throw {error: 'Invalid token'}
+            }
+            const user = this.userRepository.getById(userId.id);
+            if (!user) {
+                throw { error: 'No user with the corresponding token exists' };
+            }
+            return user.id;
+        } catch (error) {
+            console.log("Something went worng at the service level in authancticate ", error);
+            throw error; 
+        }
+};
+
     createToken(user) {
         try {
             const token = JWT.sign(
@@ -59,7 +77,7 @@ class UserService{
             console.log("Something went worng at the service level in token cretetion ", error);
             throw error;
         }
-    }
+};
 
     verifyToken(token) {
           try {

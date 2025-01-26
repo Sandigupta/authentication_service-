@@ -1,3 +1,4 @@
+const { use } = require("../routes/v1");
 const UserService = require("../services/user-service");
 
 const userService = new UserService();
@@ -46,6 +47,27 @@ const signIn = async (req, res) => {
     }
 }
 
+const isAuthanticated = async (req,res) => {
+      try {
+          const token = req.headers['x-access-token'];
+          const responce = await userService.authanticate(token);
+          return res.status(200).json({
+              data: responce,
+              message: "User is Succesfully authorised",
+              success: true,
+              err:{}
+          })
+      } catch (error) {
+          console.log(error);
+          return res.status(500).json({
+              message: "Something went wrong ",
+              data: {},
+              success: false,
+              err:error
+        })
+      }
+}
+
 const des=async (req, res) => {
     try {
         const responce =await userService.destroy(req.params);
@@ -64,5 +86,6 @@ const des=async (req, res) => {
 module.exports = {
     create,
     des,
-    signIn
+    signIn,
+    isAuthanticated
 }
