@@ -3,6 +3,7 @@ const UserRepository  = require("../repository/user-repository");
 const JWT = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/configService');
 const bcrypt = require('bcrypt');
+const { transporter } = require('../nodemailer/mailer');
 
 class UserService{
     constructor() {
@@ -43,6 +44,30 @@ class UserService{
             
             // step 3-> if passwords match then create a token and send it to the user
             const newJWT = this.createToken({ email: user.email, id: user.id });
+            
+            // step-> 4 home work verifying mail using node mmailer
+            const mailConfigurations = {
+
+                // It should be a string of sender/server email
+                from: 'sandeep.iit2022@gamil.com',
+            
+                to: 'sandi.tech24@gmail.com',
+            
+                // Subject of Email
+                subject: 'Email Verification',
+                
+                // This would be the text of email body
+                text: `Hi! There, You have recently visited 
+                       our website and entered your email.
+                       Please follow the given link to verify your email ${newJWT}`
+            };
+            
+            transporter.sendMail(mailConfigurations, function(error, info){
+                if (error) throw Error(error);
+                console.log('Email Sent Successfully');
+                console.log(info);
+            });
+
             return newJWT;
          } catch (error) {
             console.log("Something went worng at the service level in signIn ", error);

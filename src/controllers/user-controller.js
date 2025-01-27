@@ -68,6 +68,7 @@ const isAuthanticated = async (req,res) => {
       }
 }
 
+
 const des=async (req, res) => {
     try {
         const responce =await userService.destroy(req.params);

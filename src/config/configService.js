@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt");
 const saltRound = 10;
+const dotenv = require('dotenv');
+dotenv.config();
 
 function getSalt() {
     return bcrypt.genSaltSync(saltRound);
@@ -8,5 +10,7 @@ function getSalt() {
 module.exports = {
     PORT: process.env.PORT || 3001,
     SALT: getSalt(),
-    JWT_SECRET: process.env.JWT_SECRET || 'YourNewSecretValue' 
+    JWT_SECRET: process.env.JWT_SECRET || 'YourNewSecretValue',
+    user: process.env.userEmail,
+    pass: process.env.pass
 }
