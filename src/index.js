@@ -20,6 +20,9 @@ const prepareAndStartServer = () => {
     app.listen(PORT, async () => {
         console.log(`Server started on port: ${PORT}`);
         
+        if (process.env.DB_SYNC) {
+            db.sequlize.sequlize({ alter: true });
+        }
 
         // const user =await userRepository.getById(1);
         // console.log(user);
