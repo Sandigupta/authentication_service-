@@ -10,6 +10,19 @@ const validateUserAuth = (req, res, next)=>{
     next();
 }
 
+const validateAdminAuth = (req, res, next) => {
+     if (!req.body.id) {
+         return res.status(400).json({
+             succes: "false",
+             data: {},
+             message: "Something went wrong",
+             err:"Email and password is missing in the request"
+        })
+    }
+    next();
+}
+
 module.exports = {
-    validateUserAuth
+    validateUserAuth,
+    validateAdminAuth
 }

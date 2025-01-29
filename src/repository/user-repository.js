@@ -1,4 +1,6 @@
-const {User} = require("../models/index");
+const { User} = require("../models/index");
+const {Role} = require("../models/index");
+
 
 class userRepository{
 
@@ -47,9 +49,27 @@ class userRepository{
               });
               return user;
           } catch (error) {
-            console.log("Something went wrong at the repository level");
+            console.log("Something went wrong at the repository in getByEmail level");
             throw error;
           }
+    }
+
+    async isAdmin(id) {
+        try {
+            const user =await User.findByPk(id);
+            // console.log(user);
+            const adminRole = await Role.findOne({
+                where: {
+                    name: 'ADMIN'
+                }
+            });
+            // console.log(adminRole);
+            const responce =await user.hasRole(adminRole);
+            return responce;
+        } catch (error) {
+            console.log("Something went wrong at the repository in isAdmin level");
+            throw error; 
+        }
     }
     
 }

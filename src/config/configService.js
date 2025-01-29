@@ -12,5 +12,7 @@ module.exports = {
     SALT: getSalt(),
     JWT_SECRET: process.env.JWT_SECRET || 'YourNewSecretValue',
     user: process.env.userEmail,
-    pass: process.env.pass
+    pass: process.env.pass,
+    DB_SYNC:process.env.DB_SYNC
+
 }

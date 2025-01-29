@@ -91,7 +91,17 @@ class UserService{
             console.log("Something went worng at the service level in authancticate ", error);
             throw error; 
         }
-};
+    };
+
+    async authorisation(userId) {
+        try {
+            const responce = this.userRepository.isAdmin(userId);
+            return responce;
+        } catch (error) {
+            console.log("Something went worng at the service level in authorisation ", error);
+            throw error; 
+        }
+    }
 
     createToken(user) {
         try {

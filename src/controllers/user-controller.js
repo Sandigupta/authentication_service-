@@ -67,7 +67,25 @@ const isAuthanticated = async (req,res) => {
         })
       }
 }
-
+const isAuthorisation = async (req, res) => {
+      try {
+          const responce = await userService.authorisation(req.body.id);
+          return res.status(400).json({
+              data: responce,
+              message: "User is Succesfully authorisation",
+              success: true,
+              err:{}
+          })
+      } catch (error) {
+          console.log(error);
+          return res.status(500).json({
+              message: "Something went wrong",
+              data: {},
+              success: false,
+              err:error
+          })
+      }
+}
 
 const des=async (req, res) => {
     try {
@@ -88,5 +106,6 @@ module.exports = {
     create,
     des,
     signIn,
-    isAuthanticated
+    isAuthanticated,
+    isAuthorisation
 }
