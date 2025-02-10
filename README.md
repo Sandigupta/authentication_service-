@@ -405,8 +405,8 @@ jwt.verify(token, secret, (err, decoded) => {
 ```javascript
 const decoded = jwt.decode(token);
 console.log('Decoded Token:', decoded);
-```
 
+```
 ## Best Practices
 
 1. **Secure the Secret**: Store the secret key in an environment variable.
@@ -416,6 +416,96 @@ console.log('Decoded Token:', decoded);
 ## More Information
 
 For detailed documentation, visit the [jsonwebtoken GitHub Repository](https://github.com/auth0/node-jsonwebtoken).
+```
+```
+# **Sequelize Associations**
+
+Sequelize provides robust support for defining relationships between models using **associations**. Associations help in structuring related data effectively and enable powerful query capabilities.
+
+## Types of Associations
+Sequelize supports the following types of associations:
+
+1. **One-to-One (`hasOne` & `belongsTo`)**
+2. **One-to-Many (`hasMany` & `belongsTo`)**
+3. **Many-to-Many (`belongsToMany`)**
+
+---
+
+## Defining Associations
+### 1. One-to-One
+Used when one record in a table is associated with only one record in another table.
+```javascript
+// Example: A User has one Profile
+User.hasOne(Profile);
+Profile.belongsTo(User);
+```
+
+### 2. One-to-Many
+Used when one record in a table is associated with multiple records in another table.
+```javascript
+// Example: A User has many Posts
+User.hasMany(Post);
+Post.belongsTo(User);
+```
+
+### 3. Many-to-Many
+Used when multiple records in a table are related to multiple records in another table.
+```javascript
+// Example: A Student belongs to many Courses
+Student.belongsToMany(Course, { through: 'StudentCourses' });
+Course.belongsToMany(Student, { through: 'StudentCourses' });
+```
+
+---
+
+## Association Options
+Sequelize provides several options to customize associations:
+- **foreignKey**: Specifies a custom foreign key.
+- **as**: Defines an alias for the association.
+- **onDelete & onUpdate**: Controls behavior when associated records are deleted/updated.
+- **through**: Specifies the join table for many-to-many relationships.
+
+Example:
+```javascript
+User.hasOne(Profile, { foreignKey: 'userId', onDelete: 'CASCADE' });
+```
+
+---
+
+## Eager & Lazy Loading
+- **Eager Loading**: Load associated models using `include`.
+  ```javascript
+  User.findAll({ include: Profile });
+  ```
+- **Lazy Loading**: Load associations on demand.
+  ```javascript
+  const user = await User.findByPk(1);
+  const profile = await user.getProfile();
+  ```
+
+---
+
+## Querying with Associations
+Sequelize provides built-in methods to query associated data:
+```javascript
+const user = await User.findOne({
+  where: { id: 1 },
+  include: [
+    { model: Profile, as: 'profile' },
+    { model: Post, as: 'posts' }
+  ]
+});
+```
+
+---
+
+## Learn More
+For a detailed guide on Sequelize associations, refer to the official documentation:  
+🔗 [Sequelize Associations Documentation](https://sequelize.org/docs/v6/core-concepts/assocs/)
+🔗 [Sequelize Associations median very usefull](https://medium.com/@tavilesa12/dealing-with-many-to-many-associations-in-sequelize-bddc34201b80)
+
+```
+```
 
 --- 
 
