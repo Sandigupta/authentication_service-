@@ -509,6 +509,123 @@ For a detailed guide on Sequelize associations, refer to the official documentat
 
 --- 
 
+# **Many-to-Many Associations in Sequelize**
+
+## Introduction
+Many-to-Many (M:N) relationships occur when multiple records in one table are associated with multiple records in another table. In Sequelize, this is managed using a junction (through) table that contains foreign keys referencing both tables.
+
+## Setting Up Many-to-Many Associations
+To create an M:N association in Sequelize, you need three tables:
+1. **Two main tables** (e.g., `Students` and `Courses`)
+2. **A junction table** (e.g., `StudentCourses`) that holds references to both tables
+
+### Example: Students and Courses
+A student can enroll in multiple courses, and a course can have multiple students. This forms a Many-to-Many relationship.
+
+### Model Definitions
+#### Student Model
+```javascript
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+
+class Student extends Model {}
+
+Student.init(
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false }
+  },
+  { sequelize, modelName: 'Student' }
+);
+
+module.exports = Student;
+```
+
+#### Course Model
+```javascript
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+
+class Course extends Model {}
+
+Course.init(
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    title: { type: DataTypes.STRING, allowNull: false }
+  },
+  { sequelize, modelName: 'Course' }
+);
+
+module.exports = Course;
+```
+
+### Defining the Association
+The association is defined using Sequelize's `belongsToMany` method. A junction table (`StudentCourses`) will be created automatically.
+
+```javascript
+const Student = require('./models/Student');
+const Course = require('./models/Course');
+
+Student.belongsToMany(Course, { through: 'StudentCourses' });
+Course.belongsToMany(Student, { through: 'StudentCourses' });
+```
+
+## Working with Many-to-Many Associations
+
+### Adding Associations
+To associate a student with a course:
+```javascript
+const student = await Student.create({ name: 'John Doe' });
+const course = await Course.create({ title: 'Mathematics' });
+await student.addCourse(course);
+```
+
+### Retrieving Associated Data
+#### Fetch courses for a student
+```javascript
+const student = await Student.findOne({
+  where: { name: 'John Doe' },
+  include: Course
+});
+console.log(student.Courses);
+```
+
+#### Fetch students enrolled in a course
+```javascript
+const course = await Course.findOne({
+  where: { title: 'Mathematics' },
+  include: Student
+});
+console.log(course.Students);
+```
+
+## Advanced Many-to-Many Associations
+
+### Custom Junction Table with Additional Attributes
+Instead of a simple string (`through: 'StudentCourses'`), you can define a custom model for the junction table if additional attributes (e.g., `enrollmentDate`) are needed.
+
+#### StudentCourse Model
+```javascript
+const StudentCourse = sequelize.define('StudentCourse', {
+  enrollmentDate: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW
+  }
+});
+
+Student.belongsToMany(Course, { through: StudentCourse });
+Course.belongsToMany(Student, { through: StudentCourse });
+```
+
+#### Using Additional Attributes
+```javascript
+await student.addCourse(course, { through: { enrollmentDate: new Date() } });
+```
+
+## Further Reading
+For more details, refer to the official Sequelize documentation: [Advanced Many-to-Many Associations](https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/)
+
 ---
 ## **Final Notes**
 
