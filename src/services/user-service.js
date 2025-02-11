@@ -1,9 +1,10 @@
-const { destroy } = require("../controllers/user-controller");
 const UserRepository  = require("../repository/user-repository");
 const JWT = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/configService');
 const bcrypt = require('bcrypt');
 const { transporter } = require('../nodemailer/mailer');
+const ValidationError=require('../utils/validation-error');
+const AppErrors = require("../utils/error-handler");
 
 class UserService{
     constructor() {
@@ -15,8 +16,18 @@ class UserService{
             const responce = await this.userRepository.create(data);
             return responce;
         } catch (error) {
+            // console.log("EEEE:",error);
+            if (error.name === 'SequelizeValidationError') {
+                throw error;
+            }
             console.log("Something went wrong at the User service level");
-            throw error;
+            // throw error;
+            throw new AppErrors(
+                'ServerError',
+                'Something went wrong in service',
+                'Logical issue found',
+                400
+            );
         }
     }
 

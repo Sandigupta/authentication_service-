@@ -1,24 +1,26 @@
-const { use } = require("../routes/v1");
+// const { use } = require("../routes/v1");
 const UserService = require("../services/user-service");
+
 
 const userService = new UserService();
 
 const create = async (req, res) => {
     try {
-        const user = userService.create({
+        const user = await userService.create({
             email: req.body.email,
             password:req.body.password 
         });
         return res.status(201).json({
             data: user,
-            message:`Succesfully created a new user`,
+            message: `Succesfully created a new user`,
             success: true,
-            err:{}
-        })
+            err: {}
+        });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
-            message: `Something went wrong`,
+        return res.status(error.statusCode).json({
+            // message: `Something went wrong`,
+            message:error.message,
             data: {},
             success: false,
             err: error
@@ -67,7 +69,7 @@ const isAuthanticated = async (req,res) => {
         })
       }
 }
-const isAuthorisation = async (req, res) => {
+const isAdmin = async (req, res) => {
       try {
           const responce = await userService.authorisation(req.body.id);
           return res.status(400).json({
@@ -87,7 +89,7 @@ const isAuthorisation = async (req, res) => {
       }
 }
 
-const des=async (req, res) => {
+const destroy=async (req, res) => {
     try {
         const responce =await userService.destroy(req.params);
         return res.status(201).json({
@@ -104,8 +106,8 @@ const des=async (req, res) => {
 
 module.exports = {
     create,
-    des,
+    destroy,
     signIn,
     isAuthanticated,
-    isAuthorisation
+    isAdmin
 }
