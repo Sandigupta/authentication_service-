@@ -1,3 +1,135 @@
+# **Node.js Authentication API**
+
+This is a Node.js project that provides user authentication functionalities using Express.js. It includes APIs for user signup, signin, authentication checks, and admin verification.
+
+## Prerequisites
+
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v14 or later recommended)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
+- [MySQL](https://www.mysql.com/) (for database support)
+
+## Installation
+
+1. Clone the repository:
+   ```sh
+   git clone <your-repository-url>
+   cd <your-project-folder>
+   ```
+
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+
+3. Set up environment variables:
+   - Create a `.env` file in the root directory and add the following details:
+     ```env
+     PORT=3001
+     JWT_SECRET=YourNewSecretValue
+     userEmail=sandeep.iiit2022@gmail.com
+     pass=ocet lxgh euej zace
+     DB_SYNC=true
+     ```
+
+4. Start the server:
+   ```sh
+   npm start
+   ```
+
+   The server will run on `http://localhost:3001`
+
+## API Endpoints
+
+### 1. User Signup
+- **Endpoint:** `POST /api/v1/signup`
+- **Description:** Creates a new user account.
+- **Request Body:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "securepassword"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "message": "User created successfully"
+  }
+  ```
+
+### 2. User Signin
+- **Endpoint:** `POST /api/v1/signin`
+- **Description:** Logs in an existing user.
+- **Request Body:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "securepassword"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "token": "your_jwt_token"
+  }
+  ```
+
+### 3. Check Authentication
+- **Endpoint:** `POST /api/v1/isAuthenticated`
+- **Description:** Verifies if the user is authenticated.
+- **Response:**
+  ```json
+  {
+    "authenticated": true
+  }
+  ```
+
+### 4. Check Admin Status
+- **Endpoint:** `GET /api/v1/isAdmin`
+- **Description:** Checks if the user has admin privileges.
+- **Headers:**
+  ```json
+  {
+    "Authorization": "Bearer your_jwt_token"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "admin": true
+  }
+  ```
+
+### 5. Dummy API
+- **Endpoint:** `GET /api/v1/dummy`
+- **Description:** Returns a simple OK message.
+- **Response:**
+  ```json
+  {
+    "message": "OK"
+  }
+  ```
+
+## Project Structure
+```
+.
+├── controllers
+│   ├── user-controller.js
+├── middlewares
+│   ├── index.js
+├── routes
+│   ├── v1
+│   │   ├── user-routes.js
+├── .env
+├── src
+│   ├── index.js
+├── server.js
+├── package.json
+```
+----
+----
+
 # Node.js Project Initialization and Setup
 
 This guide provides step-by-step instructions to initialize and set up a Node.js project with essential dependencies and folder structure. Follow the steps below to build a well-structured backend application.
