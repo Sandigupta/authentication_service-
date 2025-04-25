@@ -1,133 +1,170 @@
-# **Node.js Authentication API**
+# Node.js Authentication API
 
-This is a Node.js project that provides user authentication functionalities using Express.js. It includes APIs for user signup, signin, authentication checks, and admin verification.
+This repository implements a lightweight and extensible authentication service built with Node.js and Express. It provides RESTful endpoints for user registration, login, authentication validation, and role-based access control (admin check). This service is designed to be integrated into larger distributed systems or used as a standalone module for user management.
+
+---
 
 ## Prerequisites
 
-Ensure you have the following installed:
-- [Node.js](https://nodejs.org/) (v14 or later recommended)
-- [npm](https://www.npmjs.com/) (comes with Node.js)
-- [MySQL](https://www.mysql.com/) (for database support)
+Before setting up the project, ensure the following dependencies are installed on your machine:
 
-## Installation
+- [Node.js](https://nodejs.org/) (v14 or higher recommended)
+- [npm](https://www.npmjs.com/) (typically bundled with Node.js)
+- [MySQL](https://www.mysql.com/) (used as the underlying relational database)
 
-1. Clone the repository:
-   ```sh
-   git clone <your-repository-url>
-   cd <your-project-folder>
-   ```
+---
 
-2. Install dependencies:
-   ```sh
-   npm install
-   ```
+## Installation & Setup
 
-3. Set up environment variables:
-   - Create a `.env` file in the root directory and add the following details:
-     ```env
-     PORT=3001
-     JWT_SECRET=YourNewSecretValue
-     userEmail=sandeep.iiit2022@gmail.com
-     pass=ocet lxgh euej zace
-     DB_SYNC=true
-     ```
+### 1. Clone the Repository
 
-4. Start the server:
-   ```sh
-   npm start
-   ```
+```bash
+git clone <your-repository-url>
+cd <your-project-folder>
+```
 
-   The server will run on `http://localhost:3001`
+### 2. Install Dependencies
 
-## API Endpoints
+```bash
+npm install
+```
 
-### 1. User Signup
-- **Endpoint:** `POST /api/v1/signup`
-- **Description:** Creates a new user account.
-- **Request Body:**
-  ```json
-  {
-    "email": "user@example.com",
-    "password": "securepassword"
-  }
-  ```
-- **Response:**
-  ```json
-  {
-    "message": "User created successfully"
-  }
-  ```
+### 3. Configure Environment Variables
 
-### 2. User Signin
-- **Endpoint:** `POST /api/v1/signin`
-- **Description:** Logs in an existing user.
-- **Request Body:**
-  ```json
-  {
-    "email": "user@example.com",
-    "password": "securepassword"
-  }
-  ```
-- **Response:**
-  ```json
-  {
-    "token": "your_jwt_token"
-  }
-  ```
+Create a `.env` file at the root of the project and define the following variables:
 
-### 3. Check Authentication
-- **Endpoint:** `POST /api/v1/isAuthenticated`
-- **Description:** Verifies if the user is authenticated.
-- **Response:**
-  ```json
-  {
-    "authenticated": true
-  }
-  ```
+```env
+PORT=3001
+JWT_SECRET=YourNewSecretValue
 
-### 4. Check Admin Status
-- **Endpoint:** `GET /api/v1/isAdmin`
-- **Description:** Checks if the user has admin privileges.
-- **Headers:**
-  ```json
-  {
-    "Authorization": "Bearer your_jwt_token"
-  }
-  ```
-- **Response:**
-  ```json
-  {
-    "admin": true
-  }
-  ```
+# Email credentials for notification services (if used)
+userEmail=sandeep.iiit2022@gmail.com
+pass=ocet lxgh euej zace
 
-### 5. Dummy API
-- **Endpoint:** `GET /api/v1/dummy`
-- **Description:** Returns a simple OK message.
-- **Response:**
-  ```json
-  {
-    "message": "OK"
-  }
-  ```
+# Sequelize sync flag
+DB_SYNC=true
+```
+
+> **Note:** Ensure that sensitive credentials are never committed to source control.
+
+### 4. Start the Server
+
+```bash
+npm start
+```
+
+The server will be accessible at `http://localhost:3001`.
+
+---
+
+## API Overview
+
+### POST `/api/v1/signup`
+Registers a new user.
+
+**Request Body**
+```json
+{
+  "email": "user@example.com",
+  "password": "securepassword"
+}
+```
+
+**Response**
+```json
+{
+  "message": "User created successfully"
+}
+```
+
+---
+
+### POST `/api/v1/signin`
+Authenticates a registered user and returns a JWT token.
+
+**Request Body**
+```json
+{
+  "email": "user@example.com",
+  "password": "securepassword"
+}
+```
+
+**Response**
+```json
+{
+  "token": "your_jwt_token"
+}
+```
+
+---
+
+### POST `/api/v1/isAuthenticated`
+Validates whether a given token is valid and the user is authenticated.
+
+**Response**
+```json
+{
+  "authenticated": true
+}
+```
+
+---
+
+### GET `/api/v1/isAdmin`
+Checks if the authenticated user has admin privileges.
+
+**Headers**
+```
+Authorization: Bearer <your_jwt_token>
+```
+
+**Response**
+```json
+{
+  "admin": true
+}
+```
+
+---
+
+### GET `/api/v1/dummy`
+A basic health check or test endpoint.
+
+**Response**
+```json
+{
+  "message": "OK"
+}
+```
+
+---
 
 ## Project Structure
+
 ```
 .
 ├── controllers
-│   ├── user-controller.js
+│   └── user-controller.js         # Handles core business logic for user-related operations
 ├── middlewares
-│   ├── index.js
+│   └── index.js                   # Authentication and role verification middleware
 ├── routes
-│   ├── v1
-│   │   ├── user-routes.js
-├── .env
+│   └── v1
+│       └── user-routes.js         # Defines v1 API endpoints
 ├── src
-│   ├── index.js
-├── server.js
-├── package.json
+│   └── index.js                   # Initializes application components
+├── server.js                      # Entry point for the server
+├── .env                           # Environment configuration (not version-controlled)
+├── package.json                   # Project metadata and dependencies
 ```
-----
+
+---
+
+## Contributing
+
+Contributions are welcome. If you plan to extend this service or integrate it with other microservices, feel free to open an issue or submit a pull request with your enhancements.
+
+---
 
 
 
